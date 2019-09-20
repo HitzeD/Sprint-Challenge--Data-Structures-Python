@@ -5,13 +5,21 @@ class RingBuffer:
     self.storage = [None]*capacity
 
   def append(self, item):
-      if len(self.storage) == self.current:
-        print('here!')
-      else:
-        self.storage.append(item)
+      if self.current == self.capacity:
+        self.current = 0
+      self.storage[self.current] = item
+      self.current += 1
+
 
   def get(self):
-    return self.storage
+    my_list = []
+    for item in self.storage:
+      if item == None:
+        pass
+      else:
+        my_list.append(item)
+    
+    return my_list
 
 # ********* TESTS ************
 
@@ -20,14 +28,14 @@ buffer = RingBuffer(3)
 # buffer.get() # returns []
 
 buffer.append('a')
-# buffer.append('b')
-# buffer.append('c')
+buffer.append('b')
+buffer.append('c')
 
-print(buffer.get()) # returns [a, b, c]
+# print(buffer.get()) # returns [a, b, c]
 
-# buffer.append('d')
+buffer.append('d')
 
-# buffer.get # returns [d, b, c]
+print(buffer.get()) # returns [d, b, c]
 
 # buffer.append('e')
 # buffer.append('f')
